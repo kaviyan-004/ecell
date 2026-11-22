@@ -1,0 +1,1234 @@
+/* =============================================================
+   AquaSentinel Studio - Freshwater Reservoir Survey Console
+   Palette: Light Slate Canvas, Crisp White Panels, Deep Navy Text
+   Restrained Blue Accent (#0066cc)
+   ============================================================= */
+
+:root {
+  --bg-app: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-sidebar: #ffffff;
+  --border-color: #e2e8f0;
+  --border-subtle: #edf2f7;
+  
+  --primary-blue: #0066cc;
+  --primary-hover: #0052a3;
+  --primary-light: #e6f0fa;
+  
+  --navy-heading: #0d2342;
+  --text-main: #1e293b;
+  --text-muted: #475569;
+  --text-dim: #64748b;
+  
+  --status-green: #16a34a;
+  --status-green-bg: #dcfce7;
+  --status-amber: #d97706;
+  --status-amber-bg: #fef3c7;
+  --status-red: #dc2626;
+  --status-red-bg: #fee2e2;
+  
+  --shadow-card: 0 1px 4px rgba(13, 35, 66, 0.04);
+  --radius-card: 10px;
+  --radius-sm: 6px;
+  --radius-full: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  line-height: 1.45;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Tabular Numerals for live telemetry */
+.tabular, .metric-number, .stat-item-row b, .data-table td:nth-child(2), #clock-time {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* App Shell Layout */
+.shell {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+/* -------------------------------------------------------------
+   Left Sidebar Navigation (220px Compact)
+   ------------------------------------------------------------- */
+aside {
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 6px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.brand-logo-wave {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.brand-text b {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--navy-heading);
+  letter-spacing: -0.4px;
+  display: block;
+  line-height: 1.15;
+}
+
+.brand-text small {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 14px 0;
+  flex: 1;
+}
+
+nav button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 0;
+  background: transparent;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.12s ease;
+  width: 100%;
+}
+
+nav button:hover {
+  background: #f1f5f9;
+  color: var(--navy-heading);
+}
+
+nav button.active {
+  background: var(--primary-blue);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+nav button svg {
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.sidebar-system-badge {
+  margin-top: auto;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-indicator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--status-green);
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------
+   Workspace Header Bar (Single Horizontal Centreline)
+   ------------------------------------------------------------- */
+.workspace {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  height: 56px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.search-box {
+  position: relative;
+  width: min(320px, 36%);
+  display: flex;
+  align-items: center;
+}
+
+.search-box input {
+  width: 100%;
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  padding: 7px 14px 7px 32px;
+  font-size: 13px;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.12s;
+}
+
+.search-box input:focus {
+  border-color: var(--primary-blue);
+  background: #ffffff;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-clock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.header-clock svg {
+  color: var(--text-dim);
+}
+
+.clock-sep {
+  color: #cbd5e1;
+}
+
+.alert-bell-btn {
+  position: relative;
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.alert-bell-btn:hover {
+  background: #f1f5f9;
+  color: var(--navy-heading);
+}
+
+.alert-bell-btn .badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: var(--status-red);
+  color: #ffffff;
+  font-size: 9.5px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  padding: 0 3px;
+  border: 1.5px solid #ffffff;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar-badge {
+  width: 30px;
+  height: 30px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-meta b {
+  font-size: 12px;
+  color: var(--navy-heading);
+  line-height: 1.2;
+}
+
+.user-meta small {
+  font-size: 10.5px;
+  color: var(--text-dim);
+}
+
+/* -------------------------------------------------------------
+   Main Workspace Container
+   ------------------------------------------------------------- */
+main {
+  padding: 20px 24px 36px;
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Home Overview Title Banner */
+.dash-header-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dash-title-text h1 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy-heading);
+  letter-spacing: -0.4px;
+}
+
+.dash-title-text p {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.mission-state-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--status-green-bg);
+  color: var(--status-green);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid #bbf7d0;
+}
+
+.mission-state-pill.paused {
+  background: var(--status-amber-bg);
+  color: var(--status-amber);
+  border-color: #fde68a;
+}
+
+.mission-state-pill.completed {
+  background: #e0f2fe;
+  color: #0369a1;
+  border-color: #bae6fd;
+}
+
+/* -------------------------------------------------------------
+   1. Top Metric Cards (6 Cards with Uniform Structure)
+   ------------------------------------------------------------- */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  padding: 12px 14px 10px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: border-color 0.12s;
+}
+
+.metric-card:hover {
+  border-color: #cbd5e1;
+}
+
+.metric-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.metric-val-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.metric-number {
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--navy-heading);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.metric-unit {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.metric-status-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 8px;
+}
+
+.tag-normal {
+  background: var(--status-green-bg);
+  color: var(--status-green);
+}
+
+.tag-amber {
+  background: var(--status-amber-bg);
+  color: var(--status-amber);
+}
+
+.tag-red {
+  background: var(--status-red-bg);
+  color: var(--status-red);
+}
+
+.metric-sparkline {
+  width: 100%;
+  height: 24px;
+  margin-top: auto;
+  display: block;
+}
+
+.sparkline-empty {
+  font-size: 10.5px;
+  color: var(--text-dim);
+  font-style: italic;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+/* -------------------------------------------------------------
+   2. Camera and Map Row (Split 50% / 50% with No Dead Space)
+   ------------------------------------------------------------- */
+.split-50 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.card-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.panel-head h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy-heading);
+}
+
+.panel-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Dual Camera Grid */
+.dual-camera-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.camera-feed-box {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0f172a;
+  aspect-ratio: 16 / 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.camera-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.camera-label-pill {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.camera-telemetry-overlay {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(15, 23, 42, 0.7);
+  color: #38bdf8;
+  font-family: ui-monospace, monospace;
+  font-size: 9.5px;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.rov-docked-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0a192f;
+  color: #94a3b8;
+  text-align: center;
+  padding: 12px;
+}
+
+.rov-docked-box b {
+  font-size: 12px;
+  color: #cbd5e1;
+  margin-bottom: 4px;
+}
+
+.rov-docked-box small {
+  font-size: 10.5px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+/* Map Preview Panel */
+.map-view-wrapper {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #092134;
+  height: 250px;
+}
+
+.map-svg, #map3d-canvas, #twin-canvas, #boat {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.map-controls-overlay {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+}
+
+.map-btn {
+  background: rgba(15, 23, 42, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.map-btn:hover {
+  background: var(--primary-blue);
+}
+
+.map-switch-toggle {
+  display: inline-flex;
+  background: #f1f5f9;
+  border-radius: 6px;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+}
+
+.map-switch-btn {
+  background: transparent;
+  color: #475569;
+  border: 0;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.map-switch-btn.active {
+  background: var(--primary-blue);
+  color: #ffffff;
+}
+
+/* 3D Mission View Toolbar */
+.map-3d-toolbar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 4px;
+  z-index: 10;
+  background: rgba(15, 23, 42, 0.75);
+  padding: 3px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.map-3d-toolbar.large {
+  top: 12px;
+  right: 12px;
+  gap: 6px;
+  padding: 5px;
+}
+
+.map-3d-btn {
+  background: transparent;
+  color: #cbd5e1;
+  border: 1px solid transparent;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.map-3d-toolbar.large .map-3d-btn {
+  padding: 5px 12px;
+  font-size: 11.5px;
+}
+
+.map-3d-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.map-3d-btn.active {
+  background: var(--primary-blue, #0284c7);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.map-depth-chip {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(4px);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: var(--radius-full);
+  padding: 3px 10px;
+  font-size: 10.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* -------------------------------------------------------------
+   3. Third Row: System Status, Water Quality Table, Sediment
+   ------------------------------------------------------------- */
+.row-three-cols {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1.15fr;
+  gap: 14px;
+  margin-bottom: 16px;
+  align-items: start; /* Prevents artificial card stretching */
+}
+
+/* System Status Vehicles (Stacked Cleanly) */
+.system-status-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vehicle-subpanel {
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vehicle-subhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vehicle-subhead b {
+  font-size: 12.5px;
+  color: var(--navy-heading);
+}
+
+.vehicle-subhead small {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.vehicle-visual-box {
+  width: 100%;
+  height: 82px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.vehicle-visual-box canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.telemetry-bars-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.stat-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.stat-item-row span {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+.stat-item-row b {
+  font-size: 11.5px;
+  color: var(--navy-heading);
+}
+
+.rov-action-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.btn-sm-action {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary-blue);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-sm-action:hover {
+  background: var(--primary-light);
+  border-color: var(--primary-blue);
+}
+
+/* Water Quality Table (Compact, Left-aligned labels, Right-aligned values) */
+.wq-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.wq-table th {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-dim);
+  font-weight: 600;
+  text-align: left;
+}
+
+.wq-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-main);
+}
+
+.wq-table td:nth-child(2) {
+  text-align: right;
+  font-weight: 700;
+  color: var(--navy-heading);
+}
+
+.wq-table td:nth-child(3) {
+  text-align: right;
+}
+
+/* Sediment Cross-Section Panel */
+.sediment-cross-wrap {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0f1f33;
+  height: 180px;
+  margin-bottom: 8px;
+}
+
+.sediment-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sediment-legend-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.sediment-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+/* -------------------------------------------------------------
+   4. Bottom Row: Fish & Ecosystem | Alerts | Mission Controls
+   ------------------------------------------------------------- */
+.row-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.eco-content-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.eco-ring-gauge {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.eco-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.eco-ring-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--navy-heading);
+}
+
+.eco-info-text b {
+  font-size: 13px;
+  color: var(--status-green);
+  display: block;
+}
+
+.eco-info-text small {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.35;
+  display: block;
+  margin-top: 3px;
+}
+
+.alerts-compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.alert-item-mini {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.alert-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.alert-time {
+  font-family: ui-monospace, monospace;
+  color: var(--text-dim);
+  font-size: 10.5px;
+  min-width: 44px;
+}
+
+.alert-desc {
+  flex: 1;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.alert-locate-link {
+  color: var(--primary-blue);
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.controls-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.control-buttons-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.btn-ctrl {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.12s;
+}
+
+.btn-ctrl:hover {
+  background: #f1f5f9;
+}
+
+.btn-ctrl.primary {
+  background: var(--primary-blue);
+  color: #ffffff;
+  border-color: var(--primary-blue);
+}
+
+.btn-ctrl.primary:hover {
+  background: var(--primary-hover);
+}
+
+.progress-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.progress-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.progress-track-lg {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill-lg {
+  height: 100%;
+  background: var(--primary-blue);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* -------------------------------------------------------------
+   Drilldown Pages & Modals Styling
+   ------------------------------------------------------------- */
+.page-heading-block {
+  margin-bottom: 18px;
+}
+
+.page-heading-block small {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--primary-blue);
+  text-transform: uppercase;
+}
+
+.page-heading-block h1 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy-heading);
+  margin-top: 2px;
+}
+
+.page-heading-block p {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.drilldown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.drilldown-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-card);
+  padding: 14px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.drilldown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drilldown-header b {
+  font-size: 13px;
+  color: var(--navy-heading);
+}
+
+.drilldown-val-large {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy-heading);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.data-table th {
+  background: #f8fafc;
+  color: var(--text-dim);
+  font-weight: 600;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-main);
+}
+
+/* -------------------------------------------------------------
+   Print & PDF Report Styles
+   ------------------------------------------------------------- */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  aside, header, .btn-ctrl, .btn-sm-action, .map-controls-overlay, .search-box {
+    display: none !important;
+  }
+  .shell {
+    display: block !important;
+  }
+  main {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  .report-printable {
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+
+/* -------------------------------------------------------------
+   Responsive Breakpoints
+   ------------------------------------------------------------- */
+@media (max-width: 1180px) {
+  .metrics-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .row-three-cols {
+    grid-template-columns: 1fr;
+  }
+  .row-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  aside {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-color);
+    padding: 10px 14px;
+  }
+  nav {
+    flex-direction: row;
+    overflow-x: auto;
+    margin: 6px 0;
+  }
+  nav button {
+    white-space: nowrap;
+    padding: 6px 10px;
+  }
+  .sidebar-system-badge {
+    display: none;
+  }
+  .split-50 {
+    grid-template-columns: 1fr;
+  }
+  .metrics-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  header {
+    padding: 0 14px;
+  }
+  .search-box {
+    width: 180px;
+  }
+}
+
+@media (max-width: 580px) {
+  .metrics-row {
+    grid-template-columns: 1fr;
+  }
+  .dual-camera-grid {
+    grid-template-columns: 1fr;
+  }
+  .user-meta, .header-clock {
+    display: none;
+  }
+}

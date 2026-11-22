@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AquaSentinel · Autonomous Surface & Underwater Monitoring System</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌊</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="console.css">
+</head>
+<body>
+  <div class="shell">
+    <!-- Left Sidebar (220px fixed) -->
+    <aside>
+      <div class="brand-container">
+        <!-- AquaSentinel Wave Logo Icon -->
+        <svg class="brand-logo-wave" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="8" fill="#0066CC"/>
+          <path d="M8 14C12 11 17 11 20 14C24 17 29 17 32 14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M8 20C12 17 17 17 20 20C24 23 29 23 32 20" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M8 26C12 23 17 23 20 26C24 29 29 29 32 26" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.8"/>
+        </svg>
+        <div class="brand-text">
+          <b>AquaSentinel</b>
+          <small>RESERVOIR OPERATIONS</small>
+        </div>
+      </div>
+
+      <!-- Navigation links (populated by ui.js with outline SVG icons) -->
+      <nav id="nav"></nav>
+
+      <!-- Sidebar Status -->
+      <div class="sidebar-system-badge">
+        <span class="status-indicator-dot"></span>
+        <span>Local simulation engine · 5m grid</span>
+      </div>
+    </aside>
+
+    <!-- Workspace Area -->
+    <div class="workspace">
+      <!-- Top Bar: Aligned on one horizontal centreline -->
+      <header>
+        <div class="search-box">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input id="search" list="search-datalist" placeholder="Search parameters, location, or reports..." aria-label="Search parameters">
+          <datalist id="search-datalist"></datalist>
+        </div>
+
+        <div class="header-right">
+          <!-- Real Local Clock & Date -->
+          <div class="header-clock">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span id="clock-time">21:46:59</span>
+            <span class="clock-sep">·</span>
+            <span id="clock-date">Sat, 22 Nov 2026</span>
+          </div>
+
+          <!-- Alert Notification Bell with Badge -->
+          <button class="alert-bell-btn" id="alert-bell" onclick="go(8)" title="View Alerts">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+            <span class="badge" id="bell-badge">0</span>
+          </button>
+
+          <!-- Operator Identity -->
+          <div class="user-profile">
+            <div class="avatar-badge">AR</div>
+            <div class="user-meta">
+              <b>Admin</b>
+              <small>Survey operator</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Dynamic Content -->
+      <main id="content"></main>
+    </div>
+  </div>
+
+  <!-- Modal / Inspector Overlay Layer -->
+  <div id="modal-layer"></div>
+
+  <!-- Scripts -->
+  <script src="engine.js"></script>
+  <script src="twin.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>
